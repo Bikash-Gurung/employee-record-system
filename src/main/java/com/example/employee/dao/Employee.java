@@ -1,6 +1,7 @@
 package com.example.employee.dao;
 
 import com.example.employee.dto.EmployeeRequest;
+import com.example.employee.dto.EmployeeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,16 +99,16 @@ public class Employee {
         return status;
     }
 
-    public static EmployeeRequest getEmployeeById(int id) {
-        EmployeeRequest employee = new EmployeeRequest();
+    public static EmployeeResponse getEmployeeById(String id) {
+        EmployeeResponse employee = new EmployeeResponse();
 
         try {
             Connection con = Employee.getConnection();
             PreparedStatement ps = con.prepareStatement("select * from emp_detail where id=?");
-            ps.setInt(1, id);
+            ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-//                employee.setId(rs.getString(1));
+                employee.setId(rs.getInt(1));
                 employee.setFirst_name(rs.getString(2));
                 employee.setMiddle_name(rs.getString(3));
                 employee.setLast_name(rs.getString(4));
@@ -126,22 +127,23 @@ public class Employee {
         return employee;
     }
 
-    public static List<EmployeeRequest> getAllEmployees() {
-        List<EmployeeRequest> list = new ArrayList<EmployeeRequest>();
+    public static List<EmployeeResponse> getAllEmployees() {
+        List<EmployeeResponse> list = new ArrayList<EmployeeResponse>();
 
         try {
             Connection con = Employee.getConnection();
             PreparedStatement ps = con.prepareStatement("select * from emp_detail");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                EmployeeRequest employee = new EmployeeRequest();
-                employee.setFirst_name(rs.getString(1));
-                employee.setMiddle_name(rs.getString(2));
-                employee.setLast_name(rs.getString(3));
-                employee.setAddress(rs.getString(4));
-                employee.setPhone(rs.getString(5));
-                employee.setEmail(rs.getString(6));
-                employee.setDepartment(rs.getString(7));
+                EmployeeResponse employee = new EmployeeResponse();
+                employee.setId(rs.getInt(1));
+                employee.setFirst_name(rs.getString(2));
+                employee.setMiddle_name(rs.getString(3));
+                employee.setLast_name(rs.getString(4));
+                employee.setAddress(rs.getString(5));
+                employee.setPhone(rs.getString(6));
+                employee.setEmail(rs.getString(7));
+                employee.setDepartment(rs.getString(8));
                 list.add(employee);
             }
 
