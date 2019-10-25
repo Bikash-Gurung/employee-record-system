@@ -52,7 +52,7 @@ public class EmployeeServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        out.print("Employee with given ID deleted successfully");
+        out.print("Success");
         out.close();
     }
 }
