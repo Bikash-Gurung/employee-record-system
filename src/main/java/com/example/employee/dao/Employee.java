@@ -33,7 +33,6 @@ public class Employee {
                     "insert into emp_detail(first_name,middle_name,last_name,address,phone,email,department) values " +
                             "(?,?,?,?,?,?,?)");
 
-            logger.info("Null pointer occured here");
             ps.setString(1, employee.getFirstName());
             ps.setString(2, employee.getMiddleName());
             ps.setString(3, employee.getLastName());
@@ -100,7 +99,7 @@ public class Employee {
             }
             ps.close();
         } catch (Exception e) {
-            logger.error("Error while saving data to database: ", e);
+            logger.error("Error while retrieving data from database: ", e);
         }
 
         return employee;
@@ -127,7 +126,7 @@ public class Employee {
 
             ps.close();
         } catch (Exception e) {
-            logger.error("Error while saving data to database: ", e);
+            logger.error("Error while retrieving data from database: ", e);
         }
 
         return list;

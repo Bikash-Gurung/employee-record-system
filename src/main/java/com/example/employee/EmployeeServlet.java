@@ -1,8 +1,5 @@
 package com.example.employee;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,39 +10,38 @@ import java.io.PrintWriter;
 @WebServlet(urlPatterns = "/employees/*")
 public class EmployeeServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeServlet.class);
     private static EmployeeService employeeService = new EmployeeService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String body = employeeService.addEmployee(req);
+        String responseBody = employeeService.addEmployee(req);
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        out.print(body);
+        out.print(responseBody);
         out.close();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String body = employeeService.getEmployee(req);
+        String responseBody = employeeService.getEmployee(req);
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        out.print(body);
+        out.print(responseBody);
         out.close();
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String body = employeeService.updateEmployee(req);
+        String responseBody = employeeService.updateEmployee(req);
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        out.print(body);
+        out.print(responseBody);
         out.close();
     }
 
@@ -56,7 +52,7 @@ public class EmployeeServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        out.print("Success");
+        out.print("Employee with given ID deleted successfully");
         out.close();
     }
 }

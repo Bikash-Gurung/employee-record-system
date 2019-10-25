@@ -15,13 +15,11 @@ public class EmployeeService {
     public String addEmployee(HttpServletRequest req) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        String body = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        String requestBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
-        EmployeeRequest employee = mapper.readValue(body, EmployeeRequest.class);
+        Employee.save(mapper.readValue(requestBody, EmployeeRequest.class));
 
-        Employee.save(employee);
-
-        return body;
+        return requestBody;
     }
 
     public String getEmployee(HttpServletRequest req) throws JsonProcessingException {
@@ -31,18 +29,14 @@ public class EmployeeService {
 
         if (pathInfo != null) {
             String[] pathParts = pathInfo.split("/");
-            String id = pathParts[1];
-            EmployeeResponse employee = Employee.getEmployeeById(id);
+            EmployeeResponse employee = Employee.getEmployeeById(pathParts[1]);
 
             if (employee != null) {
-                String responseBody = mapper.writeValueAsString(employee);
-                return responseBody;
+                return mapper.writeValueAsString(employee);
             }
         }
 
-        String responseBody = mapper.writeValueAsString(Employee.getAllEmployees());
-
-        return responseBody;
+        return mapper.writeValueAsString(Employee.getAllEmployees());
     }
 
     public String updateEmployee(HttpServletRequest req) throws IOException {
@@ -50,14 +44,12 @@ public class EmployeeService {
 
         String pathInfo = req.getPathInfo();
         String[] pathParts = pathInfo.split("/");
-        String id = pathParts[1];
 
-        String body = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        String requestBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
-        EmployeeRequest employeeRequest = mapper.readValue(body, EmployeeRequest.class);
-        Employee.update(employeeRequest, id);
+        Employee.update(mapper.readValue(requestBody, EmployeeRequest.class), pathParts[1]);
 
-        return body;
+        return requestBody;
     }
 
     public void deleteEmployee(HttpServletRequest req) {
@@ -65,8 +57,7 @@ public class EmployeeService {
 
         String pathInfo = req.getPathInfo();
         String[] pathParts = pathInfo.split("/");
-        String id = pathParts[1];
 
-        Employee.delete(id);
+        Employee.delete(pathParts[1]);
     }
 }
