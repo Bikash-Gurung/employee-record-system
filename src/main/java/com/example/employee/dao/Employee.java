@@ -20,7 +20,6 @@ public class Employee {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "bikash", "bikash");
-
         } catch (Exception e) {
             logger.error("Error while connecting to database: ", e);
             return null;
@@ -28,10 +27,9 @@ public class Employee {
     }
 
     public static void save(EmployeeRequest employee) {
-        try(Connection con = Employee.getConnection()){
-
+        try (Connection con = Employee.getConnection()) {
             PreparedStatement ps;
-                    ps = con.prepareStatement(
+            ps = con.prepareStatement(
                     "insert into emp_detail(first_name,middle_name,last_name,address,phone,email,department) values " +
                             "(?,?,?,?,?,?,?)");
 
@@ -48,14 +46,14 @@ public class Employee {
         } catch (Exception e) {
             logger.error("Error while saving data to database: ", e);
         }
-
     }
 
     public static void update(EmployeeRequest employee, String id) {
-        try(Connection con = Employee.getConnection()) {
+        try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "update emp_detail set first_name=?,middle_name=?,last_name=?,address=?, phone=?, email=?, " +
                             "department=? where id=?");
+
             ps.setString(1, employee.getFirstName());
             ps.setString(2, employee.getMiddleName());
             ps.setString(3, employee.getLastName());
@@ -72,7 +70,7 @@ public class Employee {
     }
 
     public static void delete(String id) {
-        try(Connection con = Employee.getConnection()) {
+        try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement("delete from emp_detail where id=?");
             ps.setString(1, id);
             ps.executeUpdate();
@@ -85,8 +83,9 @@ public class Employee {
     public static EmployeeResponse getEmployeeById(String id) {
         EmployeeResponse employee = new EmployeeResponse();
 
-        try(Connection con = Employee.getConnection()) {
+        try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from emp_detail where id=?");
+
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -110,7 +109,7 @@ public class Employee {
     public static List<EmployeeResponse> getAllEmployees() {
         List<EmployeeResponse> list = new ArrayList<EmployeeResponse>();
 
-        try(Connection con = Employee.getConnection()) {
+        try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from emp_detail");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

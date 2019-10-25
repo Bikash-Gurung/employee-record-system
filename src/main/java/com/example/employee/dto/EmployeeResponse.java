@@ -7,13 +7,9 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 public class EmployeeResponse {
     private int id;
-
     private String FirstName;
-
     private String middleName;
-
     private String lastName;
-
     private String address;
     private String phone;
     private String email;

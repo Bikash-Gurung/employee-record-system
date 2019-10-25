@@ -7,23 +7,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmployeeService {
 
     public String addEmployee(HttpServletRequest req) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        StringBuilder buffer = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            buffer.append(line);
-        }
-
-        String body = buffer.toString();
+        String body = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         EmployeeRequest employee = mapper.readValue(body, EmployeeRequest.class);
 
@@ -48,9 +40,7 @@ public class EmployeeService {
             }
         }
 
-        List<EmployeeResponse> employees = Employee.getAllEmployees();
-
-        String responseBody = mapper.writeValueAsString(employees);
+        String responseBody = mapper.writeValueAsString(Employee.getAllEmployees());
 
         return responseBody;
     }
@@ -62,13 +52,7 @@ public class EmployeeService {
         String[] pathParts = pathInfo.split("/");
         String id = pathParts[1];
 
-        StringBuilder buffer = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            buffer.append(line);
-        }
-        String body = buffer.toString();
+        String body = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
         EmployeeRequest employeeRequest = mapper.readValue(body, EmployeeRequest.class);
         Employee.update(employeeRequest, id);
@@ -76,7 +60,7 @@ public class EmployeeService {
         return body;
     }
 
-    public void deleteEmployee(HttpServletRequest req){
+    public void deleteEmployee(HttpServletRequest req) {
         ObjectMapper mapper = new ObjectMapper();
 
         String pathInfo = req.getPathInfo();

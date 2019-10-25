@@ -6,11 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class EmployeeRequest {
     private String FirstName;
-
     private String middleName;
-
     private String lastName;
-
     private String address;
     private String phone;
     private String email;

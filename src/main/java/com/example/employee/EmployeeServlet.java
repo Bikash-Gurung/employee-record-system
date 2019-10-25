@@ -18,7 +18,6 @@ public class EmployeeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         String body = employeeService.addEmployee(req);
 
         PrintWriter out = resp.getWriter();
@@ -27,7 +26,6 @@ public class EmployeeServlet extends HttpServlet {
         out.print(body);
         out.close();
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
