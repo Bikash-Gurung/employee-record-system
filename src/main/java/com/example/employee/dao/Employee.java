@@ -17,19 +17,17 @@ public class Employee {
     private static final Logger logger = LoggerFactory.getLogger(Employee.class);
 
     public static Connection getConnection() {
-        Connection con = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "bikash", "bikash");
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "bikash", "bikash");
 
         } catch (Exception e) {
             logger.error("Error while connecting to database: ", e);
+            return null;
         }
-        return con;
     }
 
-    public static int save(EmployeeRequest employee) {
-        int status = 0;
+    public static void save(EmployeeRequest employee) {
         try {
             Connection con = Employee.getConnection();
             PreparedStatement ps = con.prepareStatement(
@@ -45,7 +43,7 @@ public class Employee {
             ps.setString(6, employee.getEmail());
             ps.setString(7, employee.getDepartment());
 
-            status = ps.executeUpdate();
+            ps.executeUpdate();
 
             ps.close();
             con.close();
@@ -53,11 +51,9 @@ public class Employee {
             logger.error("Error while saving data to database: ", e);
         }
 
-        return status;
     }
 
-    public static int update(EmployeeRequest employee) {
-        int status = 0;
+    public static void update(EmployeeRequest employee, String id) {
         try {
             Connection con = Employee.getConnection();
             PreparedStatement ps = con.prepareStatement(
@@ -70,33 +66,29 @@ public class Employee {
             ps.setString(5, employee.getPhone());
             ps.setString(6, employee.getEmail());
             ps.setString(7, employee.getDepartment());
+            ps.setString(8, id);
 
-            status = ps.executeUpdate();
+            ps.executeUpdate();
 
             ps.close();
             con.close();
         } catch (Exception e) {
             logger.error("Error while saving data to database: ", e);
         }
-
-        return status;
     }
 
-    public static int delete(int id) {
-        int status = 0;
+    public static void delete(String id) {
         try {
             Connection con = Employee.getConnection();
             PreparedStatement ps = con.prepareStatement("delete from emp_detail where id=?");
-            ps.setInt(1, id);
-            status = ps.executeUpdate();
+            ps.setString(1, id);
+            ps.executeUpdate();
 
             ps.close();
             con.close();
         } catch (Exception e) {
             logger.error("Error while saving data to database: ", e);
         }
-
-        return status;
     }
 
     public static EmployeeResponse getEmployeeById(String id) {

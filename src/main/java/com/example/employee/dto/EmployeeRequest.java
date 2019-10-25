@@ -1,9 +1,17 @@
 package com.example.employee.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EmployeeRequest {
+    @JsonProperty("first_name")
     private String first_name;
+
+    @JsonProperty("middle_name")
     private String middle_name;
+
+    @JsonProperty("last_name")
     private String last_name;
+
     private String address;
     private String phone;
     private String email;
