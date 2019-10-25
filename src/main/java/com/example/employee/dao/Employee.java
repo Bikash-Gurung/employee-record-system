@@ -35,9 +35,9 @@ public class Employee {
                             "(?,?,?,?,?,?,?)");
 
             logger.info("Null pointer occured here");
-            ps.setString(1, employee.getFirst_name());
-            ps.setString(2, employee.getMiddle_name());
-            ps.setString(3, employee.getLast_name());
+            ps.setString(1, employee.getFirstName());
+            ps.setString(2, employee.getMiddleName());
+            ps.setString(3, employee.getLastName());
             ps.setString(4, employee.getAddress());
             ps.setString(5, employee.getPhone());
             ps.setString(6, employee.getEmail());
@@ -59,9 +59,9 @@ public class Employee {
             PreparedStatement ps = con.prepareStatement(
                     "update emp_detail set first_name=?,middle_name=?,last_name=?,address=?, phone=?, email=?, " +
                             "department=? where id=?");
-            ps.setString(1, employee.getFirst_name());
-            ps.setString(2, employee.getMiddle_name());
-            ps.setString(3, employee.getLast_name());
+            ps.setString(1, employee.getFirstName());
+            ps.setString(2, employee.getMiddleName());
+            ps.setString(3, employee.getLastName());
             ps.setString(4, employee.getAddress());
             ps.setString(5, employee.getPhone());
             ps.setString(6, employee.getEmail());
@@ -101,9 +101,9 @@ public class Employee {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 employee.setId(rs.getInt(1));
-                employee.setFirst_name(rs.getString(2));
-                employee.setMiddle_name(rs.getString(3));
-                employee.setLast_name(rs.getString(4));
+                employee.setFirstName(rs.getString(2));
+                employee.setMiddleName(rs.getString(3));
+                employee.setLastName(rs.getString(4));
                 employee.setAddress(rs.getString(5));
                 employee.setPhone(rs.getString(6));
                 employee.setEmail(rs.getString(7));
@@ -129,9 +129,9 @@ public class Employee {
             while (rs.next()) {
                 EmployeeResponse employee = new EmployeeResponse();
                 employee.setId(rs.getInt(1));
-                employee.setFirst_name(rs.getString(2));
-                employee.setMiddle_name(rs.getString(3));
-                employee.setLast_name(rs.getString(4));
+                employee.setFirstName(rs.getString(2));
+                employee.setMiddleName(rs.getString(3));
+                employee.setLastName(rs.getString(4));
                 employee.setAddress(rs.getString(5));
                 employee.setPhone(rs.getString(6));
                 employee.setEmail(rs.getString(7));

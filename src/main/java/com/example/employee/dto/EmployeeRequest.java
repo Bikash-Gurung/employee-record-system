@@ -1,44 +1,43 @@
 package com.example.employee.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class EmployeeRequest {
-    @JsonProperty("first_name")
-    private String first_name;
+    private String FirstName;
 
-    @JsonProperty("middle_name")
-    private String middle_name;
+    private String middleName;
 
-    @JsonProperty("last_name")
-    private String last_name;
+    private String lastName;
 
     private String address;
     private String phone;
     private String email;
     private String department;
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return FirstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
     }
 
-    public String getMiddle_name() {
-        return middle_name;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAddress() {
