@@ -3,7 +3,6 @@ package com.example.employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ public class EmployeeServlet extends HttpServlet {
     private static EmployeeService employeeService = new EmployeeService();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String body = employeeService.addEmployee(req);
 
@@ -42,7 +41,7 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String body = employeeService.updateEmployee(req);
 
         PrintWriter out = resp.getWriter();
@@ -53,7 +52,7 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         employeeService.deleteEmployee(req);
 
         PrintWriter out = resp.getWriter();
