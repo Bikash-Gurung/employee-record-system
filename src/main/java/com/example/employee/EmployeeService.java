@@ -73,7 +73,7 @@ public class EmployeeService {
         }
         Employee.update(mapper.readValue(requestBody, EmployeeRequest.class), employeeId);
 
-        return mapper.writeValueAsString(employee);
+        return mapper.writeValueAsString(Employee.getEmployeeById(employeeId));
     }
 
     public String deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws IOException {
