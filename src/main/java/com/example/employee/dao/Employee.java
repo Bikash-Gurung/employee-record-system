@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,9 @@ public class Employee {
         }
     }
 
-    public static void save(EmployeeRequest employee) {
+    public static void save(EmployeeRequest employee) throws SQLException {
         try (Connection con = Employee.getConnection()) {
-            PreparedStatement ps;
-            ps = con.prepareStatement(
+            PreparedStatement ps = con.prepareStatement(
                     "insert into emp_detail(first_name,middle_name,last_name,address,phone,email,department) values " +
                             "(?,?,?,?,?,?,?)");
 
@@ -42,12 +42,10 @@ public class Employee {
             ps.setString(7, employee.getDepartment());
             ps.executeUpdate();
             ps.close();
-        } catch (Exception e) {
-            logger.error("Error while saving data to database: ", e);
         }
     }
 
-    public static void update(EmployeeRequest employee, String id) {
+    public static int update(EmployeeRequest employee, String id) {
         try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "update emp_detail set first_name=?,middle_name=?,last_name=?,address=?, phone=?, email=?, " +
@@ -61,21 +59,28 @@ public class Employee {
             ps.setString(6, employee.getEmail());
             ps.setString(7, employee.getDepartment());
             ps.setString(8, id);
-            ps.executeUpdate();
+            int isUpdated = ps.executeUpdate();
             ps.close();
+
+            return isUpdated;
         } catch (Exception e) {
-            logger.error("Error while saving data to database: ", e);
+            logger.error("Error while updating data to database: ", e);
+            return 0;
         }
     }
 
-    public static void delete(String id) {
+    public static int delete(String id) {
         try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement("delete from emp_detail where id=?");
             ps.setString(1, id);
-            ps.executeUpdate();
+            int isDeleted = ps.executeUpdate();
             ps.close();
+
+            return isDeleted;
         } catch (Exception e) {
-            logger.error("Error while saving data to database: ", e);
+            logger.error("Error while deleting data from database: ", e);
+
+            return 0;
         }
     }
 
@@ -84,9 +89,11 @@ public class Employee {
 
         try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from emp_detail where id=?");
-
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
+            if (rs == null) {
+                return null;
+            }
             if (rs.next()) {
                 employee.setId(rs.getInt(1));
                 employee.setFirstName(rs.getString(2));
@@ -96,13 +103,17 @@ public class Employee {
                 employee.setPhone(rs.getString(6));
                 employee.setEmail(rs.getString(7));
                 employee.setDepartment(rs.getString(8));
+                ps.close();
+
+                return employee;
             }
-            ps.close();
+
+            return null;
         } catch (Exception e) {
             logger.error("Error while retrieving data from database: ", e);
-        }
 
-        return employee;
+            return null;
+        }
     }
 
     public static List<EmployeeResponse> getAllEmployees() {
@@ -123,7 +134,6 @@ public class Employee {
                 employee.setDepartment(rs.getString(8));
                 list.add(employee);
             }
-
             ps.close();
         } catch (Exception e) {
             logger.error("Error while retrieving data from database: ", e);

@@ -3,22 +3,40 @@ package com.example.employee.dto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class EmployeeRequest {
-    private String FirstName;
+
+    @NotNull
+    @NotEmpty
+    private String firstName;
+
     private String middleName;
+
+    @NotNull
+    @NotEmpty
     private String lastName;
+
     private String address;
+
     private String phone;
+
+    @NotNull
+    @NotEmpty
     private String email;
+
+    @NotNull
+    @NotEmpty
     private String department;
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getMiddleName() {
