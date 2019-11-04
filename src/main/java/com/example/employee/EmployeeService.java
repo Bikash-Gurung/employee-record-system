@@ -33,13 +33,11 @@ public class EmployeeService {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<EmployeeRequest>> constraintViolations = validator.validate(employeeRequest);
-
         if (constraintViolations.size() > 0) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             responseWriter.write(resp, "Field missing or empty");
             throw new ConstraintViolationException(constraintViolations);
         }
-
         Employee.save(employeeRequest);
 
         return mapper.writeValueAsString(employeeRequest);
@@ -49,7 +47,6 @@ public class EmployeeService {
         ObjectMapper mapper = new ObjectMapper();
         URLParser urlParser = new URLParser();
         String employeeId = urlParser.getURLParam(req);
-
         if (employeeId != null) {
             EmployeeResponse employee = Employee.getEmployeeById(employeeId);
 
@@ -69,24 +66,20 @@ public class EmployeeService {
         URLParser urlParser = new URLParser();
         String employeeId = urlParser.getURLParam(req);
         String requestBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        int isUpdated = Employee.update(mapper.readValue(requestBody, EmployeeRequest.class), employeeId);
-
-        if (isUpdated == 0) {
+        EmployeeResponse employee = Employee.getEmployeeById(employeeId);
+        if (employee == null) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             responseWriter.write(resp, "Employee with given ID does not exist");
         }
+        Employee.update(mapper.readValue(requestBody, EmployeeRequest.class), employeeId);
 
-        EmployeeResponse employee = Employee.getEmployeeById(employeeId);
-        String employeeResponse = mapper.writeValueAsString(employee);
-
-        return employeeResponse;
+        return mapper.writeValueAsString(employee);
     }
 
     public String deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         URLParser urlParser = new URLParser();
         int isDeleted = Employee.delete(urlParser.getURLParam(req));
-
         if (isDeleted == 0) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             responseWriter.write(resp, "Employee with given ID does not exist");

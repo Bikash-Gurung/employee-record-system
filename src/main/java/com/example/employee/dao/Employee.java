@@ -32,7 +32,6 @@ public class Employee {
             PreparedStatement ps = con.prepareStatement(
                     "insert into emp_detail(first_name,middle_name,last_name,address,phone,email,department) values " +
                             "(?,?,?,?,?,?,?)");
-
             ps.setString(1, employee.getFirstName());
             ps.setString(2, employee.getMiddleName());
             ps.setString(3, employee.getLastName());
@@ -50,7 +49,6 @@ public class Employee {
             PreparedStatement ps = con.prepareStatement(
                     "update emp_detail set first_name=?,middle_name=?,last_name=?,address=?, phone=?, email=?, " +
                             "department=? where id=?");
-
             ps.setString(1, employee.getFirstName());
             ps.setString(2, employee.getMiddleName());
             ps.setString(3, employee.getLastName());
@@ -79,7 +77,6 @@ public class Employee {
             return isDeleted;
         } catch (Exception e) {
             logger.error("Error while deleting data from database: ", e);
-
             return 0;
         }
     }
@@ -111,14 +108,12 @@ public class Employee {
             return null;
         } catch (Exception e) {
             logger.error("Error while retrieving data from database: ", e);
-
             return null;
         }
     }
 
     public static List<EmployeeResponse> getAllEmployees() {
         List<EmployeeResponse> list = new ArrayList<EmployeeResponse>();
-
         try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement("select * from emp_detail");
             ResultSet rs = ps.executeQuery();
