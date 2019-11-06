@@ -44,7 +44,7 @@ public class Employee {
         }
     }
 
-    public static int update(EmployeeRequest employee, String id) {
+    public static void update(EmployeeRequest employee, String id) {
         try (Connection con = Employee.getConnection()) {
             PreparedStatement ps = con.prepareStatement(
                     "update emp_detail set first_name=?,middle_name=?,last_name=?,address=?, phone=?, email=?, " +
@@ -59,11 +59,8 @@ public class Employee {
             ps.setString(8, id);
             int isUpdated = ps.executeUpdate();
             ps.close();
-
-            return isUpdated;
         } catch (Exception e) {
             logger.error("Error while updating data to database: ", e);
-            return 0;
         }
     }
 
@@ -91,7 +88,7 @@ public class Employee {
             if (rs == null) {
                 return null;
             }
-            if (rs.next()) {
+            if (rs != null && rs.next()) {
                 employee.setId(rs.getInt(1));
                 employee.setFirstName(rs.getString(2));
                 employee.setMiddleName(rs.getString(3));

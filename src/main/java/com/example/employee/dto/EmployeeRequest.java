@@ -9,13 +9,11 @@ import javax.validation.constraints.NotNull;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class EmployeeRequest {
 
-    @NotNull
     @NotEmpty
     private String firstName;
 
     private String middleName;
 
-    @NotNull
     @NotEmpty
     private String lastName;
 
@@ -23,11 +21,9 @@ public class EmployeeRequest {
 
     private String phone;
 
-    @NotNull
     @NotEmpty
     private String email;
 
-    @NotNull
     @NotEmpty
     private String department;
 
